@@ -12,8 +12,10 @@ app.use(cors())
 const db = require('./config/connection')
 
 const productRouter = require('./routers/products');
+const transactionRouter = require('./routers/transactions')
 
 app.use('/products', productRouter);
+app.use('/transactions', transactionRouter);
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
