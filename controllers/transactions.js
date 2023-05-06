@@ -18,12 +18,30 @@ exports.getTransactions = async (req, res, next) => {
 
 exports.getTransaction = async (req, res, next) => {
     try {
+        // get transaction and transaction detail
         let results = await db.query('SELECT * FROM transactions WHERE id = ?', [req.params.id]);
+
+        let transaction = results[0];
+
+        transactionDetails = [];
+
+        results = await db.query('SELECT * FROM transaction_details WHERE transaction_id = ?', [req.params.id]);
+
+        results.forEach(result => {
+            transactionDetails.push({
+                id: result.id,
+                product_id: result.product_id,
+                quantity: result.quantity
+            })
+        })
+
+        transaction.transaction_details = transactionDetails;
 
         res.status(200).json({
             message: 'Transaction',
-            transactions: results
+            transactions: transaction
         })
+
 
     } catch (error) {
         console.log(error);
