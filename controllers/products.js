@@ -1,13 +1,15 @@
 
 
 const db = require('../config/connection');
+const validation = require('../validation/products');
 
 
 exports.getProducts = async (req, res, next) => {
     try {
         let results = await db.query('SELECT * FROM products');
 
-        res.status(201).json({
+
+        res.status(200).json({
             message: 'All products',
             products: results
         })
@@ -21,7 +23,7 @@ exports.getProduct = async (req, res, next) => {
     try {
         let results = await db.query('SELECT * FROM products WHERE id = ?', [req.params.id]);
 
-        res.status(201).json({
+        res.status(200).json({
             message: 'Product',
             products: results
         })
@@ -33,7 +35,9 @@ exports.getProduct = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
     try {
-        let results = await db.query('INSERT INTO products SET ?', req.body);
+        validation.validateCreate(req, res, next);
+
+        let results = await db.query('INSERT INTO products SET ?', [req.body]);
 
         res.status(201).json({
             message: 'Product created',
@@ -51,7 +55,7 @@ exports.updateProduct = async (req, res, next) => {
     try {
         let results = await db.query('UPDATE products SET ? WHERE id = ?', [req.body, req.params.id]);
 
-        res.status(201).json({
+        res.status(200).json({
             message: 'Product updated',
             products: results
         })
@@ -65,7 +69,7 @@ exports.deleteProduct = async (req, res, next) => {
     try {
         let results = await db.query('DELETE FROM products WHERE id = ?', [req.params.id]);
 
-        res.status(201).json({
+        res.status(200).json({
             message: 'Product deleted',
             products: results
         })
