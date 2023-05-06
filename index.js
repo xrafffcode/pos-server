@@ -11,7 +11,7 @@ app.use(cors())
 
 const db = require('./config/connection')
 
-const productRouter = require('./router/products');
+const productRouter = require('./routers/products');
 
 app.use('/products', productRouter);
 

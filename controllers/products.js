@@ -1,7 +1,7 @@
 
 
 const db = require('../config/connection');
-const validation = require('../validation/products');
+const validation = require('../validations/products');
 
 
 exports.getProducts = async (req, res, next) => {
