@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const env = require('dotenv').config();
+const util = require("util")
 
 
 // Create a connection to the database
@@ -9,6 +10,9 @@ const connection = mysql.createConnection({
     password: process.env.DB_PW,
     database: process.env.DB_NAME
 });
+
+// connection query
+connection.query = util.promisify(connection.query)
 
 // open the MySQL connection
 connection.connect(error => {
